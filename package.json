@@ -1,9 +1,8 @@
 {
   "name": "tarea3-api",
   "version": "1.0.0",
-  "description": "Backend para formulario React con ExcelJS",
-  "main": "server.js",
   "type": "module",
+  "main": "server.js",
   "scripts": {
     "start": "node server.js"
   },
