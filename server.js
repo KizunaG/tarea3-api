@@ -84,16 +84,23 @@ app.post('/submit', async (req, res) => {
   }
 })
 
-// Descarga del Excel (sin caché del navegador)
 app.get('/excel', (req, res) => {
-  res.set('Cache-Control', 'no-store, no-cache, must-revalidate, proxy-revalidate')
-  res.set('Pragma', 'no-cache')
-  res.set('Expires', '0')
+  // 🔒 Evitar caché del navegador
+  res.set('Cache-Control', 'no-store, no-cache, must-revalidate, proxy-revalidate');
+  res.set('Pragma', 'no-cache');
+  res.set('Expires', '0');
+  res.set('Surrogate-Control', 'no-store');
+  res.set('Content-Type', 'application/vnd.openxmlformats-officedocument.spreadsheetml.sheet');
+
+  // 📄 Enviar el archivo Excel actualizado
   if (fs.existsSync(FILE_PATH)) {
-    return res.download(FILE_PATH, FILE_NAME)
+    return res.download(FILE_PATH, FILE_NAME);
   }
-  res.status(404).send('No hay registros todavía')
-})
+
+  // ⚠️ Si no hay archivo todavía
+  res.status(404).send('No hay registros todavía');
+});
+
 
 const PORT = process.env.PORT || 3000
 app.listen(PORT, () => {
